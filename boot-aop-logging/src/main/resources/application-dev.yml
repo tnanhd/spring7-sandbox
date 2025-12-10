@@ -1,0 +1,4 @@
+logging:
+  level:
+    com.example.aoplogging: debug
+    root: info
