@@ -63,17 +63,22 @@ You can test the application using tools like Postman or curl. Make sure to incl
 idempotently access protected endpoints such as 'POST, PUT, DELETE' etc. JSESSIONID cookie and XSRF-TOKEN cookie will be
 set in requests automatically by Postman. If you are using curl, you can manually include the cookies in the header.
 
-### To get csrf token, send a GET request to `/csrf` and get the `token` from response body.
+### To get csrf token, send a GET request to `/login` to set the
+
+`XSRF-TOKEN` cookie, then extract the token value from the cookie for use in subsequent requests:
+
+`.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())` is used to set the XSRF-TOKEN as raw value in the
+cookie, so you can directly use the cookie value as the token in the `X-XSRF-TOKEN` header.
 
 ```bash
-curl --location 'http://localhost:8080/csrf'
+curl --location 'http://localhost:8080/login'
 ```
 
 ### To login using Postman or curl, send a POST request to `/login`:
 
 ```bash
 curl --location 'http://localhost:8080/login' \
---header 'X-XSRF-TOKEN: VFnkXPY2HSlDqrfhlrNRCKgAqOtAudidtoJo1o7eoh5VLGhKMmGCOpUAexFuz4XZoZ5lPM4xhYl5juCwg7YK7ri8lCs3T1Bz' \
+--header 'X-XSRF-TOKEN: 17e123d0-fe58-48ad-a192-1af2327d41ea' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'username=admin' \
 --data-urlencode 'password=123123'
@@ -81,10 +86,23 @@ curl --location 'http://localhost:8080/login' \
 
 ### To access protected endpoints, include the `X-XSRF-TOKEN` header with the token value obtained from the
 
-`/csrf` endpoint.
-
 ```bash
 curl --location --request POST 'http://localhost:8080/api/messages' \
---header 'X-XSRF-TOKEN: CEXoQFCTF0PCW51pnlZmH1SbUW7b-yawyDpYDD4QLzXVzNJibnbdIWCndnDvOvheqXtSfWGufFfqnxCd8Qg-OAwgF1bjqrQE' \
+--header 'X-XSRF-TOKEN: 17e123d0-fe58-48ad-a192-1af2327d41ea' \
 --data ''
+```
+
+## Frontend Integration
+
+This project also includes a simple frontend built with React that interacts with the backend API, located in the
+`frontend` directory.
+This frontend application is designed to run inside Spring Boot using static files. To set up the frontend, navigate to
+the `frontend` directory and install the dependencies, build the React application to generate the static files, then
+copy the generated static files to the `src/main/resources/static` directory of the Spring Boot application. You can use
+the following commands to do this:
+
+```bash
+rm -rf src/main/resources/static/index.html src/main/resources/static/assets
+cd frontend && npm install && npm run build
+cp -r dist/* ../src/main/resources/static/
 ```
