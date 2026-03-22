@@ -7,13 +7,12 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -34,12 +33,9 @@ public class SecurityConfig {
   };
 
   @Bean
-  public SecurityFilterChain oneSecurityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain oneSecurityFilterChain(HttpSecurity http) {
     return http.cors(Customizer.withDefaults())
-        .csrf(
-            csrf ->
-                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                    .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+        .csrf(CsrfConfigurer::spa)
         .authorizeHttpRequests(
             auth -> auth.requestMatchers(AUTH_WHITELIST).permitAll().anyRequest().authenticated())
         .formLogin(

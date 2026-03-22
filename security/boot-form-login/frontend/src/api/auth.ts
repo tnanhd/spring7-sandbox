@@ -20,8 +20,6 @@ export async function login(username: string, password: string) {
   if (loginResponse.status !== 200) {
     throw new Error("Invalid username or password");
   }
-
-  await api.get("/login");
 }
 
 export async function logout() {
