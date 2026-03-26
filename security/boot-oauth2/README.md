@@ -26,7 +26,10 @@ cd boot-oauth2
 ### Run the keycloak server
 
 ```bash
-docker run -p 9000:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:latest start-dev
+docker run -p 9000:8080 \
+-e KC_BOOTSTRAP_ADMIN_USERNAME=admin \
+-e KC_BOOTSTRAP_ADMIN_PASSWORD=admin \
+quay.io/keycloak/keycloak:latest start-dev
 ```
 
 ### Create a realm, client, and user in Keycloak for testing.
@@ -39,7 +42,7 @@ docker run -p 9000:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.i
 4. Create a new user: testuser
     - Set a password for the user
 
-### Build the react app into static folder
+### Build the React app into static folder
 
 ```bash
 rm -rf src/main/resources/static/index.html src/main/resources/static/assets
