@@ -36,7 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### Node ###
+### React App ###
 frontend/node_modules
 frontend/dist
 src/main/resources/static
