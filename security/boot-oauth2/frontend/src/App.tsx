@@ -5,9 +5,22 @@ import "./App.css";
 import LoginButton from "./LoginButton";
 import { useEffect, useState } from "react";
 import { getAccessToken } from "./token";
+import { fetchMessages } from "./messagesService";
+import LogoutButton from "./LogoutButton";
 
 function App() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [message, setMessage] = useState<string>("");
+
+  async function handleFetchMessages() {
+    if (!accessToken) {
+      setMessage("You need to log in first!");
+      return;
+    }
+
+    const message = await fetchMessages(accessToken);
+    setMessage(message);
+  }
 
   useEffect(() => {
     const code = new URLSearchParams(globalThis.location.search).get("code");
@@ -38,12 +51,21 @@ function App() {
         <img src={viteLogo} className="vite" alt="Vite logo" />
       </div>
       <div>
-        <h1>Get started</h1>
         {accessToken ? (
-          <p>You are logged in! Access token: {accessToken}</p>
+          <div>
+            <p>Welcome back!</p>
+            <LogoutButton />
+          </div>
         ) : (
-          <LoginButton />
+          <div>
+            <h1>Get started</h1>
+            <LoginButton />
+          </div>
         )}
+        <button className="counter" onClick={handleFetchMessages}>
+          Fetch Messages
+        </button>
+        <p>{message}</p>
       </div>
     </section>
   );
