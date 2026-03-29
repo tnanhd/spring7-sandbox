@@ -23,8 +23,8 @@ function App() {
   }
 
   useEffect(() => {
-    const code = new URLSearchParams(globalThis.location.search).get("code");
-    globalThis.history.replaceState({}, document.title, "/");
+    const code = new URLSearchParams(location.search).get("code");
+    history.replaceState({}, document.title, "/");
     const codeVerifier = localStorage.getItem("code_verifier");
     localStorage.removeItem("code_verifier");
 

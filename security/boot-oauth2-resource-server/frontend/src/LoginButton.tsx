@@ -6,11 +6,14 @@ const LoginButton = () => {
   const [codeChallenge, setCodeChallenge] = useState("");
 
   useEffect(() => {
-    (async () => {
-      const { codeVerifier, codeChallenge } = await generateCodeVerifierAndChallenge();
+    const initCodeChallenge = async () => {
+      const { codeVerifier, codeChallenge } =
+        await generateCodeVerifierAndChallenge();
       setCodeVerifier(codeVerifier);
       setCodeChallenge(codeChallenge);
-    })();
+    };
+
+    initCodeChallenge();
   }, []);
 
   const handleLogin = () => {
@@ -24,12 +27,14 @@ const LoginButton = () => {
     });
     localStorage.setItem("code_verifier", codeVerifier);
 
-    globalThis.location.href = `http://localhost:9000/realms/myrealm/protocol/openid-connect/auth?${params.toString()}`;
+    location.href = `http://localhost:9000/realms/myrealm/protocol/openid-connect/auth?${params.toString()}`;
   };
 
   return (
     <div>
-      <button className="counter" onClick={handleLogin}>Login</button>
+      <button className="counter" onClick={handleLogin}>
+        Login
+      </button>
     </div>
   );
 };

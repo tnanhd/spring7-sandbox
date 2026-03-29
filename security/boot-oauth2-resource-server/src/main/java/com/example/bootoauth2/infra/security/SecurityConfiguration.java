@@ -12,23 +12,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
   private static final String[] STATIC_RESOURCES = {
-    "/",
-    "/index.html",
-    "/static/**",
-    "/assets/**",
-    "/*.json",
-    "/*.css",
-    "/*.js",
-    "/*.png",
-    "/*.jpg",
-    "/*.ico",
-    "/*.svg"
+    "/", "/index.html", "/assets/**", "/*.svg",
   };
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) {
     http.authorizeHttpRequests(
-            auth -> auth.requestMatchers(STATIC_RESOURCES).permitAll().anyRequest().permitAll())
+            requests ->
+                requests.requestMatchers(STATIC_RESOURCES).permitAll().anyRequest().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
     return http.build();
   }

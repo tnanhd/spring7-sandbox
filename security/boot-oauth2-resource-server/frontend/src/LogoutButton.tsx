@@ -1,6 +1,6 @@
 const LogoutButton = () => {
   const handleLogout = () => {
-    globalThis.location.href =
+    location.href =
       "http://localhost:9000/realms/myrealm/protocol/openid-connect/logout?redirect_uri=http://localhost:8080";
   };
 
