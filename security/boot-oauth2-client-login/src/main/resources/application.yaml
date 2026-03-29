@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: boot-oauth2-client-login
+  security:
+    oauth2:
+      client:
+        provider:
+          mykeycloak:
+            issuer-uri: http://localhost:9000/realms/myrealm
+        registration:
+          keycloak:
+            provider: mykeycloak
+            authorization-grant-type: authorization_code
+            client-id: myclient1
+            client-secret: WaK7XtFMVT8j2y37A7ctpRvQ5QmHpeRm
+            scope: openid,profile,email
