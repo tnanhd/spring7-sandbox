@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: boot-auth0
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-vt7rgss8o1xtvvpk.us.auth0.com/
+          audience: boot-auth0-api
