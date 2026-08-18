@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(ProductController.class)
-@ContextConfiguration(classes = {ProductController.class, GlobalExceptionHandler.class})
 class ProductControllerTest {
 
   @Autowired private MockMvc mockMvc;
